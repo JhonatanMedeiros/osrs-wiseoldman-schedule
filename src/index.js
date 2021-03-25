@@ -13,7 +13,7 @@ const trackPlayer = async (username) => {
         console.log(`Error to track the player: ${username}`);
         if (error.response) {
             try {
-                console.log(JSON.parse(error.response.data));
+                console.log(error.response.data);
             } catch (e) {
                 console.log(e);
             }
