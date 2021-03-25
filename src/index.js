@@ -1,49 +1,37 @@
 const cron = require('node-cron');
-const axios = require('axios');
+const trackPlayer = require('./trackPlayer');
 
-const API_PATH = "https://wiseoldman.net/api/players/track/"
 const PLAYERS = ["ChokitoSLA", "vira51", "Nilton", "Bittencourt"]
 
-const trackPlayer = async (username) => {
-    console.log(`Track player ${username}`)
-    try {
-        await axios.post(API_PATH, { username });
-        console.log(`Success tracker player ${username}!!`);
-    } catch (error) {
-        console.log(`Error to track the player: ${username}`);
-        if (error.response) {
-            try {
-                console.log(error.response.data);
-            } catch (e) {
-                console.log(e);
-            }
-        } else if (error.request) {
-            console.log(error.request);
-        } else {
-            console.log('Error', error.message);
-        }
-    }
-}
-
 const init = async () => {
+    console.log('Init Application', new Date().toISOString());
 
-    cron.schedule('* * * * *', () => {
-        console.log('Job Started...', new Date().toISOString());
+    let cronRunning = false;
 
-        (async function() {
-            console.log('Request track the players', new Date().toISOString())
-            for (let player of PLAYERS) {
-                await trackPlayer(player);
-            }
-            console.log('Finished Request track players', new Date().toISOString())
-        })();
+    cron.schedule('* * * * *', async () => {
+
+        console.log('Started cron job...', new Date().toISOString())
+
+        if (cronRunning) {
+            console.log('The Cron Job is running.', new Date().toISOString())
+            return;
+        }
+
+        console.log(`Started players track: ${PLAYERS}`, new Date().toISOString())
+
+        const promises = [];
+
+        for (let player of PLAYERS) {
+            promises.push(trackPlayer(player))
+        }
+
+        await Promise.all(promises)
+
+        cronRunning = false
+
+        console.log('Finished Request track players', new Date().toISOString())
 
     }, null);
-
 }
 
-
-(async () => {
-    console.log('Start Application');
-   await init();
-})()
+(async () => await init())()
