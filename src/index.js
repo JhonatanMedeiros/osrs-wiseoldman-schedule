@@ -16,8 +16,7 @@ const trackPlayer = async (username) => {
 
 const init = async () => {
 
-    cron.schedule('* 2 * * *', () => {
-        console.log('running a task every minute');
+    cron.schedule('* * * * *', () => {
         console.log('Job Started...', new Date().toISOString());
 
         (async function() {
