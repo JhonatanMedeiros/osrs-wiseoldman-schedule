@@ -1,9 +1,8 @@
 module.exports = {
   apps : [
     {
-      name: 'OSRS Wiseoldman Schedule',
-      script: 'npm',
-      args: 'start',
+      name: 'OSRS Wise Old Man Schedule',
+      script: './src/index.js',
 
       // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
       instances: 1,
