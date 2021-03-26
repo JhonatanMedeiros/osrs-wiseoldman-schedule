@@ -2,7 +2,7 @@ const cron = require('node-cron');
 const trackPlayer = require('./trackPlayer');
 const { dateIsExpired } = require('./utils');
 
-const PLAYERS = ["ChokitoSLA", "vira51", "Nilton", "Bittencourtt"]
+const PLAYERS = ["ChokitoSLA", "vira51", "Nilton", "Mateuss"]
 
 const init = async () => {
     console.log('Init Application', new Date().toISOString());
